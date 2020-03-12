@@ -1,34 +1,10 @@
 package main
 
 import (
-	"flag"
 	"fmt"
-	"os"
-	"testing"
 
 	"github.com/cucumber/godog"
-	"github.com/cucumber/godog/colors"
 )
-
-var opt = godog.Options{Output: colors.Colored(os.Stdout)}
-
-func init() {
-	godog.BindFlags("godog.", flag.CommandLine, &opt)
-}
-
-func TestMain(m *testing.M) {
-	flag.Parse()
-	opt.Paths = flag.Args()
-
-	status := godog.RunWithOptions("godogs", func(s *godog.Suite) {
-		FeatureContext(s)
-	}, opt)
-
-	if st := m.Run(); st > status {
-		status = st
-	}
-	os.Exit(status)
-}
 
 var tuple *Tuple
 
@@ -118,8 +94,4 @@ func FeatureContext(s *godog.Suite) {
 	s.BeforeScenario(func(i interface{}) {
 		tuple = nil // clean the state before every scenario
 	})
-}
-
-func TestTuple(t *testing.T) {
-	// stub test, godog will run Cucumber/Gherkin BDD tests in ./features
 }
